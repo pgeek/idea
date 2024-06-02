@@ -1,0 +1,84 @@
+# 红黑树-总结篇
+
+# 概述
+
+红黑树是2-3-4树的二叉实现形式。2-3-4树是4阶的B+树
+
+![image](https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/a/pDDkjgkLNhXn0eK8/f802e61c51a144bca295608822208f3d3894.png)
+
+从3孩节点到4孩节点，会涉及到红黑树的变换
+
+![image](https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/a/pDDkjgkLNhXn0eK8/127bce32f3d84b639860b6b18c5cc1993894.png)
+
+红黑树的查询、插入节点、删除节点逻辑同2-3-4树一致，
+
+# 插入操作
+
+前提：
+
+1.  要插入的节点为红色
+    
+2.  从根节点开始搜索，遍历到要插入的叶子节点
+    
+3.  如果父节点为黑色，直接插入
+    
+4.  如果父节点为红色
+    
+    1.  叔节点为黑色（在234树中，要插入的节点为3孩节点， 插入后变为4孩节点，按照上面的3->4孩的旋转操作）
+        
+    2.  叔节点为红色（在234树中，要插入的节点为4孩节点， 按照上面的节点升级裂变操作）
+        
+
+# 删除操作
+
+1.  删除的key没有找到，返回null，结束
+    
+2.  删除的key找到
+    
+    1.  有后继节点， 用后继节点的值替换为该节点；将指针指向后续节点，进入2循环
+        
+    2.  没有后继节点，进入3
+        
+3.  删除节点为红色，直接删除
+    
+4.  删除节点为黑色（对应删除2-3-4节点）
+    
+    1.  黑兄
+        
+        1.  有红侄（在234树中兄节点是3或4孩节点） - 父下兄上    
+            
+
+![image](https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/a/pDDkjgkLNhXn0eK8/d32c3b9d7d7f4f39bb76be87eb746c743894.png)
+
+2.  无红侄（在234树中兄节点是2孩节点）
+    
+    1.  红父（在234树中父节点3或4孩节点）- 父下与兄和
+        
+
+![image](https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/a/pDDkjgkLNhXn0eK8/1d29a0dd0e8a4d0cabb516778823ef173894.png)
+
+2.  黑父（在234树中父节点是2孩节点）- 父下与兄合，**循环4** 
+    
+
+![image](https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/a/pDDkjgkLNhXn0eK8/ff704c3fb1c0452bbe2b24eab201cf403894.png)
+
+1.  开始循环-黑兄黑侄黑父（继续循环4）
+    
+
+![image](https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/a/pDDkjgkLNhXn0eK8/95f13677ec744f399e92dbb9d1f9103e3894.png)
+
+2.  开始循环-黑兄黑侄红父（会终止循环）
+    
+
+![image](https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/a/pDDkjgkLNhXn0eK8/4c1921598f6c4db4ab794d1039ce82ee3894.png)
+
+2.  红兄（一定是黑父、黑侄；在234树中父节点是3孩节点），通过旋转将红兄转为黑兄，进入4.1
+    
+
+![image](https://alidocs.oss-cn-zhangjiakou.aliyuncs.com/a/pDDkjgkLNhXn0eK8/9b087c3988284f938204e56f871899af3894.png)
+
+# 参考资料
+
+1.  [https://www.cnblogs.com/nullzx/p/6111175.html](https://www.cnblogs.com/nullzx/p/6111175.html)
+    
+2.  [https://www.cnblogs.com/nullzx/p/6128416.html](https://www.cnblogs.com/nullzx/p/6128416.html)
